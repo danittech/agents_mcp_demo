@@ -1,19 +1,24 @@
 # (c) Danit Consultancy and Development, September-2023, danittech@yahoo.com
 
-"""LangGraph agent definition."""
+""" LangGraph agent definition """
+
 import structlog
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, START, END
 from langgraph.prebuilt import ToolNode
-
 from app.agents.state import AgentState
 from app.agents.tools import get_tools
 from app.services.llm import get_llm
 
+# ----------------------------------------------------------------------------------------
+
+_agent = None
 logger = structlog.get_logger(__name__)
 
+# ----------------------------------------------------------------------------------------
 
 def create_agent_graph():
+
     llm = get_llm()
     tools = get_tools()
     llm_with_tools = llm.bind_tools(tools)
@@ -40,9 +45,7 @@ def create_agent_graph():
     
     return workflow.compile()
 
-
-_agent = None
-
+# ----------------------------------------------------------------------------------------
 
 def get_agent():
     global _agent
@@ -50,8 +53,10 @@ def get_agent():
         _agent = create_agent_graph()
     return _agent
 
+# ----------------------------------------------------------------------------------------
 
 async def invoke_agent(query: str, session_id: str | None = None) -> dict:
+
     logger.info("invoking_agent", query=query)
     agent = get_agent()
     

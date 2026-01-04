@@ -1,12 +1,14 @@
 # (c) Danit Consultancy and Development, January-2026, danittech@yahoo.com
 
-"""Application configuration."""
+""" Application configuration """
+
 from typing import List
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+# ----------------------------------------------------------------------------------------
 
 class Settings(BaseSettings):
+
     model_config = SettingsConfigDict(
         env_file=".env",
         case_sensitive=True,
@@ -41,5 +43,6 @@ class Settings(BaseSettings):
     LANGSMITH_PROJECT: str = "ai-agent-project"
     ENABLE_TRACING: bool = False
 
+# ----------------------------------------------------------------------------------------
 
 settings = Settings()

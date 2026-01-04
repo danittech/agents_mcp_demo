@@ -1,14 +1,16 @@
 # (c) Danit Consultancy and Development, January-2026, danittech@yahoo.com
 
-"""Structured logging configuration."""
+""" Structured logging configuration """
+
 import logging
 import sys
 import structlog
-
 from app.core.config import settings
 
+# ----------------------------------------------------------------------------------------
 
 def setup_logging() -> None:
+
     if settings.LOG_FORMAT == "json":
         renderer = structlog.processors.JSONRenderer()
     else:
@@ -22,7 +24,7 @@ def setup_logging() -> None:
             structlog.processors.format_exc_info,
             renderer,
         ],
-        wrapper_class=structlog.stdlib.BoundLogger,
+        wrapper_class=structlog.stdlib.BoundLogger,  # noqa
         logger_factory=structlog.stdlib.LoggerFactory(),
         cache_logger_on_first_use=True,
     )
